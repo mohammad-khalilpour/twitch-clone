@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "875621309287",
+    "project_id": "twitch-kian",
+    "storage_bucket": "twitch-kian.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875621309287:android:2c1dcdeaf32d70f766adc2",
+        "android_client_info": {
+          "package_name": "com.example.twitch_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875621309287-t44cmnf2rn5p9dh2qj0k6icvv2jkpmbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcWeYHYHt_NLCcZlvZrAqBaQtBgRO5YZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875621309287-t44cmnf2rn5p9dh2qj0k6icvv2jkpmbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
