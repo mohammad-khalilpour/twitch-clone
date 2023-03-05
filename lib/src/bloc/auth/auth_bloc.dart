@@ -19,6 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AppEventInitialize>(_initialize);
     on<AppEventRegister>(_register);
     on<AppEventLogIn>(_logIn);
+    on<AppEventVerifyEmailRequest>(_verifyEmail);
+    on<AppEventEmailVerified>(_emailVerified);
   }
 
   FutureOr<void> _register(
@@ -28,12 +30,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final email = event.email;
     final password = event.password;
     final username = event.username;
+    emit(
+      const AppStateLoggedOut(
+        isLoading: true,
+      ),
+    );
 
     String res = await _authMethods.signUpUser(
         email: email, username: username, password: password);
     if (res == "success") {
-
-
+      _authMethods.sendEmailVerification();
       emit(
         const AppStateIsInOtpScreen(
           isLoading: false,
@@ -55,31 +61,83 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         isLoading: true,
       ),
     );
-    _authMethods.logIn(
+    String res = await _authMethods.logIn(
       email: event.email,
       password: event.password,
     );
-    emit(
-      AppStateLoggedIn(
-        isLoading: false,
-        user: (await _authMethods.getUserDetails())!,
-      ),
-    );
+    if (res == "success") {
+      emit(
+        AppStateLoggedIn(
+          isLoading: false,
+          user: (await _authMethods.getUserDetails())!,
+        ),
+      );
+    } else {
+      emit(
+        AppStateLoggedOut(
+          isLoading: false,
+          authError: AuthError.from(res),
+        ),
+      );
+    }
   }
 
   FutureOr<void> _initialize(
     AppEventInitialize event,
     Emitter<AuthState> emit,
   ) async {
+    emit(
+      const AppStateLoggedOut(isLoading: true),
+    );
     final user = await _authMethods.getUserDetails();
+
+
     if (user == null) {
       emit(
         const AppStateLoggedOut(
           isLoading: false,
         ),
       );
-    } else if (!user.emailIsVerified) {
-      emit(const AppStateIsInOtpScreen(isLoading: false));
+    } else if (_authMethods.emailIsVerified()) {
+      emit(
+        const AppStateIsInOtpScreen(
+          isLoading: false,
+        ),
+      );
+    } else {
+      emit(
+        AppStateLoggedIn(
+          isLoading: false,
+          user: user,
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _verifyEmail(
+    AppEventVerifyEmailRequest event,
+    Emitter<AuthState> emit,
+  ) {
+    _authMethods.sendEmailVerification();
+  }
+
+  FutureOr<void> _emailVerified(
+    AppEventEmailVerified event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      const AppStateLoggedOut(
+        isLoading: true,
+      ),
+    );
+    final model.User user = (await _authMethods.getUserDetails())!;
+
+    if (_authMethods.emailIsVerified()) {
+      emit(
+        const AppStateIsInOtpScreen(
+          isLoading: false,
+        ),
+      );
     } else {
       emit(
         AppStateLoggedIn(

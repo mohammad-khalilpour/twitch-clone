@@ -22,16 +22,15 @@ abstract class AuthError {
   });
 
   factory AuthError.from(String exception) =>
-      authErrorMapping[exception] ??
-      const AuthErrorUnknown();
+      authErrorMapping[exception] ?? AuthErrorUnknown(exception);
 }
 
 @immutable
 class AuthErrorUnknown extends AuthError {
-  const AuthErrorUnknown()
+  const AuthErrorUnknown(String exeption)
       : super(
           dialogTitle: 'Authentication error',
-          dialogText: 'Unknown authentication error',
+          dialogText: exeption,
         );
 }
 

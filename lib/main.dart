@@ -6,7 +6,7 @@ import 'package:twitch_clone/src/bloc/auth/auth_bloc.dart';
 import 'package:twitch_clone/src/screens/landing_page_screen.dart';
 import 'package:twitch_clone/src/screens/main_screen.dart';
 import 'package:twitch_clone/src/screens/otp_screen.dart';
-import 'package:twitch_clone/src/utils/loading_screen.dart';
+import 'package:twitch_clone/src/utils/loding/loading_page.dart';
 import 'package:twitch_clone/src/utils/utils.dart';
 
 void main() async {
@@ -39,26 +39,40 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, appState) {
+            if (appState.isLoading) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const LoadingPage(),
+                ),
+              );
+            } else {
+              Navigator.of(context).pop();
+            }
+            if(appState is AppStateIsInOtpScreen) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const OtpScreen(),
+                ),
+              );
+            }
+            if (appState is AppStateLoggedIn) {
+               Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MainScreen(),
+                ),
+              );
+            }
             if (appState.authError != null) {
               showSnackBar(
                 context,
-                appState.authError.toString(),
-              );
-            }
-            if (appState.isLoading) {
-              LoadingScreen.instance().show(
-                context: context,
-                text: 'Loading...',
+                appState.authError!.dialogText,
               );
             }
           },
           builder: (context, appState) {
             if (appState is AppStateLoggedOut) {
               return const LandingPageScreen();
-            } else if (appState is AppStateIsInOtpScreen) {
-              return const OtpScreen();
             } else if (appState is AppStateLoggedIn) {
-              print(appState.user.toString());
               return const MainScreen();
             } else {
               // this should never happen

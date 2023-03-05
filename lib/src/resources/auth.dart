@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +8,7 @@ import 'package:twitch_clone/src/models/user.dart' as model;
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  model.User? _user;
 
   Future<String> signUpUser({
     required String email,
@@ -25,9 +25,8 @@ class AuthMethods {
       );
 
       String photoUrl = "something";
-      // await StorageMethods().uploadImageToStorage('profilePics', file, false);
 
-      model.User _user = model.User(
+      _user = model.User(
         uid: cred.user!.uid,
         username: username,
         email: email,
@@ -36,13 +35,9 @@ class AuthMethods {
         createdAt: DateTime.now().toString(),
         followers: [],
         following: [],
-        emailIsVerified: false,
       );
 
-      await _firestore
-          .collection("users")
-          .doc(cred.user!.uid)
-          .set(_user.toJson());
+      await _firestore.collection("users").doc(_user!.uid).set(_user!.toJson());
     } catch (e) {
       res = e.toString();
     }
@@ -57,22 +52,23 @@ class AuthMethods {
       DocumentSnapshot? documentSnapshot =
           await _firestore.collection('users').doc(currentUser.uid).get();
 
-      return model.User.fromSnap(documentSnapshot);
+      _user = model.User.fromSnap(documentSnapshot);
+
+      return _user;
     }
 
     return null;
   }
 
   FutureOr<void> sendEmailVerification() async {
-    final user = _auth.currentUser;
-    await user!.sendEmailVerification();
+    await _auth.currentUser!.sendEmailVerification();
   }
 
   Future<String> logIn({
     required email,
     required password,
   }) async {
-    String res = "log in success";
+    String res = "success";
     try {
       await _auth.signInWithEmailAndPassword(
         email: email,
@@ -82,5 +78,10 @@ class AuthMethods {
       res = e.toString();
     }
     return res;
+  }
+
+  bool emailIsVerified() {
+    User user = _auth.currentUser!;
+    return user.emailVerified;
   }
 }

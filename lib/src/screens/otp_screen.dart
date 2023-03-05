@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:twitch_clone/src/widgets/custom_button.dart';
+
+import '../bloc/auth/auth_bloc.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
@@ -24,14 +27,23 @@ class OtpScreen extends StatelessWidget {
             ),
             CustomButton(
               text: 'done',
-              onPressed: () {},
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AppEventEmailVerified(),
+                    );
+                
+              },
               color: const Color.fromARGB(70, 118, 110, 110),
               textColor: Colors.white,
               buttonWidth: 1,
             ),
             CustomButton(
               text: 'resend',
-              onPressed: () {},
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AppEventVerifyEmailRequest(),
+                    );
+              },
               color: const Color.fromARGB(70, 118, 110, 110),
               textColor: Colors.white,
               buttonWidth: 1,

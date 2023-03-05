@@ -9,7 +9,6 @@ class User {
   final String createdAt;
   final List followers;
   final List following;
-  final bool emailIsVerified;
 
   User({
     required this.uid,
@@ -20,10 +19,11 @@ class User {
     required this.createdAt,
     required this.followers,
     required this.following,
-    required this.emailIsVerified,
   });
 
-  static User fromSnap(DocumentSnapshot snap) {
+  static User? fromSnap(DocumentSnapshot? snap) {
+    if (snap == null || snap.data() == null ) return null;
+
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return User(
@@ -35,7 +35,6 @@ class User {
       createdAt: snapshot["createdAt"],
       followers: snapshot["followers"],
       following: snapshot["following"],
-      emailIsVerified: snapshot["emailIsVerified"],
     );
   }
 
@@ -48,7 +47,6 @@ class User {
         "createdAt": createdAt,
         "followers": followers,
         "following": following,
-        "emailIsVerified": emailIsVerified,
       };
 
   @override

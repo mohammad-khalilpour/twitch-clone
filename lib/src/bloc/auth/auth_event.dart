@@ -13,21 +13,17 @@ class AppEventUploadImage implements AuthEvent {
   });
 }
 
-
 class AppEventDeleteAccount implements AuthEvent {
   const AppEventDeleteAccount();
 }
-
 
 class AppEventLogOut implements AuthEvent {
   const AppEventLogOut();
 }
 
-
 class AppEventInitialize implements AuthEvent {
   const AppEventInitialize();
 }
-
 
 class AppEventLogIn implements AuthEvent {
   final String email;
@@ -39,6 +35,13 @@ class AppEventLogIn implements AuthEvent {
   });
 }
 
+class AppEventVerifyEmailRequest implements AuthEvent {
+  const AppEventVerifyEmailRequest();
+}
+
+class AppEventEmailVerified implements AuthEvent {
+  const AppEventEmailVerified();
+}
 
 class AppEventRegister implements AuthEvent {
   final String email;
