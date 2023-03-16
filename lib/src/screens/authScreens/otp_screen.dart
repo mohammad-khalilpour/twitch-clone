@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:twitch_clone/src/widgets/custom_button.dart';
 
-import '../bloc/auth/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});

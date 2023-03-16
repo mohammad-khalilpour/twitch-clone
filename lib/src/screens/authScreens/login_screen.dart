@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up screen'),
+        title: const Text('Log In screen'),
         centerTitle: false,
       ),
       body: Padding(
@@ -27,7 +27,6 @@ class LoginScreen extends StatelessWidget {
               text: "Email",
               description: "",
               isPassword: false,
-              isDate: false,
               isEmail: true,
               controller: emailController,
             ),
@@ -35,7 +34,6 @@ class LoginScreen extends StatelessWidget {
               text: "password",
               description: "",
               isPassword: false,
-              isDate: false,
               isEmail: false,
               controller: passwordController,
             ),

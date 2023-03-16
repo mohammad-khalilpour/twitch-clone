@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twitch_clone/firebase_options.dart';
 import 'package:twitch_clone/src/bloc/auth/auth_bloc.dart';
 import 'package:twitch_clone/src/screens/landing_page_screen.dart';
-import 'package:twitch_clone/src/screens/main_screen.dart';
-import 'package:twitch_clone/src/screens/otp_screen.dart';
+import 'package:twitch_clone/src/screens/mainScreens/viewerScreens/viewer_screen.dart';
+import 'package:twitch_clone/src/screens/authScreens/otp_screen.dart';
 import 'package:twitch_clone/src/utils/loding/loading_page.dart';
 import 'package:twitch_clone/src/utils/utils.dart';
 
@@ -31,11 +31,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Twitch',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.black87,
-          ),
-        ),
+            primarySwatch: Colors.blue,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.black87,
+            ),
+            colorScheme:
+                const ColorScheme.dark().copyWith(background: Colors.black)),
         debugShowCheckedModeBanner: false,
         home: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, appState) {
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             } else {
               Navigator.of(context).pop();
             }
-            if(appState is AppStateIsInOtpScreen) {
+            if (appState is AppStateIsInOtpScreen) {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const OtpScreen(),
@@ -56,9 +57,9 @@ class MyApp extends StatelessWidget {
               );
             }
             if (appState is AppStateLoggedIn) {
-               Navigator.of(context).pushReplacement(
+              Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const MainScreen(),
+                  builder: (context) => const VeiwerScreen(),
                 ),
               );
             }
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
             if (appState is AppStateLoggedOut) {
               return const LandingPageScreen();
             } else if (appState is AppStateLoggedIn) {
-              return const MainScreen();
+              return const VeiwerScreen();
             } else {
               // this should never happen
               return Container();

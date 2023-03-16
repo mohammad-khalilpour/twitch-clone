@@ -7,8 +7,8 @@ class User {
   final String photoUrl;
   final String password;
   final String createdAt;
-  final List followers;
-  final List following;
+  final List<String> followers;
+  final List<String> followingCategories;
 
   User({
     required this.uid,
@@ -18,11 +18,11 @@ class User {
     required this.password,
     required this.createdAt,
     required this.followers,
-    required this.following,
+    required this.followingCategories,
   });
 
   static User? fromSnap(DocumentSnapshot? snap) {
-    if (snap == null || snap.data() == null ) return null;
+    if (snap == null || snap.data() == null) return null;
 
     var snapshot = snap.data() as Map<String, dynamic>;
 
@@ -33,8 +33,8 @@ class User {
       photoUrl: snapshot["photoUrl"],
       password: snapshot["password"],
       createdAt: snapshot["createdAt"],
-      followers: snapshot["followers"],
-      following: snapshot["following"],
+      followers: List<String>.from(snapshot["followers"]) ,
+      followingCategories: List<String>.from(snapshot["following"]),
     );
   }
 
@@ -46,7 +46,7 @@ class User {
         "password": password,
         "createdAt": createdAt,
         "followers": followers,
-        "following": following,
+        "following": followingCategories,
       };
 
   @override

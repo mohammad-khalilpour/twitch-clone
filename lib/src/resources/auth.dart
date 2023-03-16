@@ -6,6 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitch_clone/src/models/user.dart' as model;
 
 class AuthMethods {
+  static final AuthMethods _authMethods = AuthMethods._internal();
+  factory AuthMethods() {
+    return _authMethods;
+  }
+  AuthMethods._internal();
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   model.User? _user;
@@ -34,7 +40,7 @@ class AuthMethods {
         photoUrl: photoUrl,
         createdAt: DateTime.now().toString(),
         followers: [],
-        following: [],
+        followingCategories: [],
       );
 
       await _firestore.collection("users").doc(_user!.uid).set(_user!.toJson());
@@ -84,4 +90,6 @@ class AuthMethods {
     User user = _auth.currentUser!;
     return user.emailVerified;
   }
+
+  model.User get user => _user!;
 }
