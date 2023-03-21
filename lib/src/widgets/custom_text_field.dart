@@ -58,37 +58,43 @@ class _CustomTextFieldState extends State<CustomTextField> {
           SizedBox(
             height: constraints.maxHeight * 0.05,
           ),
-          TextField(
-            obscureText: widget.isPassword,
-            controller: widget.controller,
-            keyboardType: widget.isEmail
-                ? TextInputType.emailAddress
-                : TextInputType.text,
-            decoration: InputDecoration(
-              fillColor: const Color.fromARGB(70, 118, 110, 110),
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(9),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(9),
-                borderSide: const BorderSide(
-                  color: Color.fromRGBO(192, 118, 245, 1),
-                  width: 3.4,
+          SizedBox(
+            height: constraints.maxHeight * (widget.isEmail ? 0.55 : 0.48),
+            child: TextField(
+              obscureText: widget.isPassword,
+              controller: widget.controller,
+              keyboardType: widget.isEmail
+                  ? TextInputType.emailAddress
+                  : TextInputType.text,
+              decoration: InputDecoration(
+                fillColor: const Color.fromARGB(70, 118, 110, 110),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(9),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(192, 118, 245, 1),
+                    width: 3.4,
+                  ),
                 ),
               ),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+              focusNode: _focusNode,
             ),
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-            focusNode: _focusNode,
           ),
           Obx(
             () {
               if (isFocused.isTrue && widget.description.isNotEmpty) {
                 return Text(
                   widget.description,
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: constraints.maxHeight * 0.10,
+                  ),
                 );
               } else {
                 return const SizedBox.shrink();

@@ -9,17 +9,18 @@ class User {
   final String createdAt;
   final List<String> followers;
   final List<String> followingCategories;
+  final List<String> following;
 
-  User({
-    required this.uid,
-    required this.username,
-    required this.email,
-    required this.photoUrl,
-    required this.password,
-    required this.createdAt,
-    required this.followers,
-    required this.followingCategories,
-  });
+  User(
+      {required this.uid,
+      required this.username,
+      required this.email,
+      required this.photoUrl,
+      required this.password,
+      required this.createdAt,
+      required this.followers,
+      required this.followingCategories,
+      required this.following});
 
   static User? fromSnap(DocumentSnapshot? snap) {
     if (snap == null || snap.data() == null) return null;
@@ -33,8 +34,9 @@ class User {
       photoUrl: snapshot["photoUrl"],
       password: snapshot["password"],
       createdAt: snapshot["createdAt"],
-      followers: List<String>.from(snapshot["followers"]) ,
-      followingCategories: List<String>.from(snapshot["following"]),
+      followers: List<String>.from(snapshot["followers"]),
+      followingCategories: List<String>.from(snapshot["followingCategories"]),
+      following: List<String>.from(snapshot["following"]),
     );
   }
 
@@ -46,7 +48,8 @@ class User {
         "password": password,
         "createdAt": createdAt,
         "followers": followers,
-        "following": followingCategories,
+        "followingCategories": followingCategories,
+        "following": following,
       };
 
   @override

@@ -9,65 +9,61 @@ class LandingPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Twitch'),
         ),
-        body: LayoutBuilder(
-          builder: (ctx, constraintes) {
-            return Container(
-              color: const Color.fromRGBO(145, 71, 255, 1),
-              child: Column(
+        body: Container(
+          color: const Color.fromRGBO(145, 71, 255, 1),
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.18,
+              ),
+              Image.asset(
+                'assets/pictures/twitchlogo.jpg',
+                height: height * 0.37,
+              ),
+              SizedBox(
+                height: height * 0.23,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  CustomButton(
+                    text: "Log In",
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                    color: const Color.fromRGBO(145, 71, 255, 1),
+                    textColor: Colors.white,
+                    buttonWidth: 0.4,
+                  ),
                   SizedBox(
-                    height: constraintes.maxHeight * 0.2,
+                    width: height * 0.05,
                   ),
-                  Image.asset(
-                    'assets/pictures/twitchlogo.jpg',
-                    height: constraintes.maxHeight * 0.4,
-                  ),
-                  SizedBox(
-                    height: constraintes.maxHeight * 0.25,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomButton(
-                        text: "Log In",
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
-                        },
-                        color: const Color.fromRGBO(145, 71, 255, 1),
-                        textColor: Colors.white,
-                        buttonWidth: 0.4,
-                      ),
-                      SizedBox(
-                        width: constraintes.maxWidth * 0.05,
-                      ),
-                      CustomButton(
-                        text: "Sign Up",
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
-                            ),
-                          );
-                        },
-                        color: Colors.white,
-                        textColor: Colors.black,
-                        buttonWidth: 0.4,
-                      ),
-                    ],
+                  CustomButton(
+                    text: "Sign Up",
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
+                    },
+                    color: Colors.white,
+                    textColor: Colors.black,
+                    buttonWidth: 0.4,
                   ),
                 ],
               ),
-            );
-          },
+            ],
+          ),
         ));
   }
 }

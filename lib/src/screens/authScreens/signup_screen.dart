@@ -4,13 +4,35 @@ import 'package:twitch_clone/src/bloc/auth/auth_bloc.dart';
 import 'package:twitch_clone/src/widgets/custom_button.dart';
 import 'package:twitch_clone/src/widgets/custom_text_field.dart';
 
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  late final TextEditingController emailController;
+  late final TextEditingController usernameController;
+  late final TextEditingController passwordController;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    usernameController = TextEditingController();
+    passwordController = TextEditingController();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +43,12 @@ class SignUpScreen extends StatelessWidget {
       ),
       body: LayoutBuilder(
         builder: (ctx, constraints) {
+          final width = constraints.maxWidth;
           return Container(
-            constraints: const BoxConstraints(
-              minWidth: 2000,
-              minHeight: 800,
+            padding: EdgeInsets.only(
+              left: width > 600 ? (width - 560) / 2 : 20,
+              right: width > 600 ? (width - 560) / 2 : 20,
             ),
-            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,7 +78,8 @@ class SignUpScreen extends StatelessWidget {
                   height: constraints.maxHeight * 0.16,
                   child: CustomTextField(
                     text: "Password",
-                    description: "Strong passwords include a mix of lower caa",
+                    description:
+                        "Strong passwords include a mix of lower case, upper case and numbers.",
                     isPassword: true,
                     isEmail: false,
                     controller: passwordController,
@@ -67,14 +90,18 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 Text(
                   'Twitch may use your phone number to call or send test messages with information regarding your account.',
-                  style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight * 0.02),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: constraints.maxHeight * 0.018),
                 ),
                 SizedBox(
                   height: constraints.maxHeight * 0.035,
                 ),
                 Text(
                   "By clicking Sign Up, you are agreeing to Twitch's Terms of Service and are acknowledging our Privacy Notice apllies.",
-                  style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight * 0.02),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: constraints.maxHeight * 0.018),
                 ),
                 SizedBox(
                   height: constraints.maxHeight * 0.055,

@@ -41,6 +41,7 @@ class AuthMethods {
         createdAt: DateTime.now().toString(),
         followers: [],
         followingCategories: [],
+        following: [],
       );
 
       await _firestore.collection("users").doc(_user!.uid).set(_user!.toJson());

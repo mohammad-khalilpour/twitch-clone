@@ -15,9 +15,8 @@ class CategoryProvider {
 
   Stream<Iterable<Category?>> followingCategories() {
     List<String> following = AuthMethods().user.followingCategories;
-    print(following);
     final followingCategories = _categories
-        .where('uid' ,whereIn: following)
+        .where('uid', whereIn: following.isEmpty ? ['empty'] : following)
         .snapshots()
         .map((event) => event.docs.map((doc) => Category.fromSnapshot(doc)));
 
